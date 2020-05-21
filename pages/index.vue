@@ -12,7 +12,7 @@
 		</div>
 		<div id="topology-canvas" class="full" @contextmenu="onContextMenu($event)"></div>
 		<div class="props" :style="props.expand ? 'overflow: visible' : ''">
-			<CanvasProps :props.sync="props" @change="onUpdateProps" @changeFileName="changeFileNameHandle"></CanvasProps>
+			<CanvasProps :props.sync="props" @change="onUpdateProps" :file-name="filename" @changeFileName="changeFileNameHandle"></CanvasProps>
 		</div>
 		<div class="context-menu" v-if="contextmenu.left" :style="this.contextmenu">
 			<CanvasContextMenu :canvas="canvas" :props.sync="props"></CanvasContextMenu>
@@ -52,7 +52,7 @@ export default {
 				top: null,
 				bottom: null
 			},
-			filename: '',
+			filename: 'topology',
 		}
 	},
 	components: {
@@ -279,6 +279,7 @@ export default {
 		},
 
 		handle_savePng(data) {
+			console.log(`${this.filename}.png`)
 			this.canvas.saveAsImage(`${this.filename}.png`)
 		},
 

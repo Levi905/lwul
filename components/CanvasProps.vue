@@ -138,18 +138,24 @@
 </template>
 <script>
 export default {
+	watch: {
+		fileName(value) {
+			this.filename = value;
+		},
+	},
+	props: {
+		props: {
+			type: Object,
+			require: true,
+		},
+		fileName: '',
+	},
 	data() {
 		return {
 			nodeId: null,
 			nodeIsJson: false,
 			nodeData: '',
-			filename: 'topology',
-		}
-	},
-	props: {
-		props: {
-			type: Object,
-			require: true
+			filename: this.fileName,
 		}
 	},
 	updated() {
@@ -182,6 +188,9 @@ export default {
 		getDisabled() {
 			return !!this.$store.state.canvas.data.locked;
 		},
+	},
+	mounted() {
+		console.log(this.name)
 	},
 }
 
