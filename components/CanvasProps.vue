@@ -2,6 +2,12 @@
 	<div>
 		<!-- 选中为空 -->
 		<div v-if="!props.node && !props.line && !props.multi">
+			<div class="title">文件名</div>
+			<div class="itmes">
+				<el-input v-model="filename" @change="$emit('changeFileName', $event)" style=" display: block; margin: 20px auto; width: 196px;"></el-input>
+				<div class="flex grid">
+				</div>
+			</div>
 			<!-- <div class="title">欢迎使用le5le-topology！</div>
 			<div class="group">
 				<a class="star" href="https://github.com/le5le-com/topology" target="_blank">喜欢，点击这里打个star吧</a>
@@ -136,7 +142,8 @@ export default {
 		return {
 			nodeId: null,
 			nodeIsJson: false,
-			nodeData: ''
+			nodeData: '',
+			filename: 'topology',
 		}
 	},
 	props: {
@@ -172,7 +179,7 @@ export default {
 		}
 	},
 	computed: {
-		getDisabled(){
+		getDisabled() {
 			return !!this.$store.state.canvas.data.locked;
 		},
 	},

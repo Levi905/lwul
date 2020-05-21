@@ -12,7 +12,7 @@
 		</div>
 		<div id="topology-canvas" class="full" @contextmenu="onContextMenu($event)"></div>
 		<div class="props" :style="props.expand ? 'overflow: visible' : ''">
-			<CanvasProps :props.sync="props" @change="onUpdateProps"></CanvasProps>
+			<CanvasProps :props.sync="props" @change="onUpdateProps" @changeFileName="changeFileNameHandle"></CanvasProps>
 		</div>
 		<div class="context-menu" v-if="contextmenu.left" :style="this.contextmenu">
 			<CanvasContextMenu :canvas="canvas" :props.sync="props"></CanvasContextMenu>
@@ -51,7 +51,8 @@ export default {
 				left: null,
 				top: null,
 				bottom: null
-			}
+			},
+			filename: '',
 		}
 	},
 	components: {
@@ -110,6 +111,10 @@ export default {
 				this.canvas.open(data.data);
 				if(this.$store.state.canvas.data.locked) this.canvas.lock(1);
 			}
+		},
+	
+		changeFileNameHandle(filename){
+			this.filename = filename;
 		},
 
 		onDrag(event, node) {
@@ -269,12 +274,12 @@ export default {
 				new Blob([JSON.stringify(this.canvas.data)], {
 					type: 'text/plain;charset=utf-8'
 				}),
-				`le5le.topology.json`
+				`${this.filename}.json`
 			)
 		},
 
 		handle_savePng(data) {
-			this.canvas.saveAsImage('le5le.topology.png')
+			this.canvas.saveAsImage(`${this.filename}.png`)
 		},
 
 		handle_saveSvg(data) {
@@ -310,7 +315,7 @@ export default {
 			const url = urlObject.createObjectURL(export_blob)
 
 			const a = document.createElement('a')
-			a.setAttribute('download', 'le5le.topology.svg')
+			a.setAttribute('download', `${this.filename}.svg`)
 			a.setAttribute('href', url)
 			const evt = document.createEvent('MouseEvents')
 			evt.initEvent('click', true, true)
